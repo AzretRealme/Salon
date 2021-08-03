@@ -4,6 +4,9 @@ import kg.easy.salonservice.exceptions.NotExistTime;
 import kg.easy.salonservice.models.dtos.SalonDto;
 import kg.easy.salonservice.services.SalonService;
 import lombok.AllArgsConstructor;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -20,8 +23,14 @@ public class SalonController  implements BaseCrudController<SalonDto,Long>{
     public SalonDto save(SalonDto salonDto) {
 
             return salonService.save(salonDto);
-
-
+    }
+    @PostMapping("/saveResponseEntity")
+    public ResponseEntity<?> saveSalon(@RequestBody SalonDto salonDto) throws NotExistTime {
+        try {
+            return salonService.saveNewMethodByResponseEntity(salonDto);
+        } catch (NotExistTime notExistTime) {
+            throw  new NotExistTime("049");
+        }
     }
 
     @Override

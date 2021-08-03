@@ -23,11 +23,9 @@ public class ReserveServiceImpl implements ReserveService {
     public ReservedHourDto save(ReservedHourDto reservedHourDto){
         boolean inTime = masterWorkDayService.inTime(reservedHourDto.getMasterWorkDay().getId(),reservedHourDto.getStartTime(),reservedHourDto.getEndTime());
         if (!inTime){
-            try {
-                throw  new NotExistTime("Не входит в диапозон");
-            } catch (NotExistTime notExistTime) {
-                notExistTime.printStackTrace();
-            }
+
+                throw  new RuntimeException("Не входит в диапозон");
+          
         }
         List<ReservedHours> reservedHoursList = reserveRepo.findAllByMasterWorkDayId(reservedHourDto.getMasterWorkDay().getId());
         boolean isFreeTime = checkFreeTime(reservedHoursList,reservedHourDto.getStartTime(),reservedHourDto.getEndTime());
@@ -41,9 +39,12 @@ public class ReserveServiceImpl implements ReserveService {
 
     private boolean checkFreeTime(List<ReservedHours> reservedHoursList,LocalDateTime startTime,LocalDateTime endTime) {
         return reservedHoursList.stream().anyMatch(x->
-                        (x.getStartTime().isBefore(startTime)||x.getStartTime().isAfter(startTime)||x.getStartTime().isEqual(startTime))
-                &&
-                                (x.getEndTime().isEqual(endTime)||x.getEndTime().isBefore(endTime)||x.getEndTime().isEqual(endTime))
+                        (x.getStartTime().isEqual(startTime)||x.getEndTime().isEqual(endTime))
+                ||
+                                (x.getStartTime().isBefore(startTime)&&x.getEndTime().isAfter(endTime))
+                ||
+                                (x.getStartTime().isAfter(startTime)&&x.getEndTime().isBefore(endTime))
+
                 );
     }
 
@@ -63,7 +64,8 @@ public class ReserveServiceImpl implements ReserveService {
     }
 
     @Override
-    public List<ReservedHourDto> findByMasterWorkDayId(Long id) {
-        return null;
+    public List<ReservedHourDto> findByMasterWorkDayId(Long masterWorkDayId) {
+        List<ReservedHours> reservedHoursList = reserveRepo.findAllByMasterWorkDayId(masterWorkDayId);
+        return ReservesHourMapper.INSTANCE.toReservedHourDtoList(reservedHoursList);
     }
 }

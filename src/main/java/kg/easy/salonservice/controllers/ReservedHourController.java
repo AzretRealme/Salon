@@ -39,7 +39,8 @@ public class ReservedHourController implements BaseCrudController<ReservedHourDt
     }
 
     @GetMapping("/getId")
-    public List<ReservedHourDto> get(@RequestParam Long id){
-        return reserveService.findByMasterWorkDayId(id);
+    public List<ReservedHourDto> get(@RequestParam Long masterWorkDayId){
+        return reserveService.findByMasterWorkDayId(masterWorkDayId);
     }
+
 }

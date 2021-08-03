@@ -52,6 +52,6 @@ public class MasterWorkDayServiceImpl implements MasterWorkDayService {
 
     @Override
     public boolean inTime(Long id, LocalDateTime startTime, LocalDateTime endTime) {
-        return masterWorkDayRepo.existsByIdAndStartTimeAfterAndEndTimeBefore(id,startTime,endTime);
+        return masterWorkDayRepo.existsByIdAndStartTimeIsLessThanEqualAndEndTimeGreaterThanEqual(id,startTime,endTime);
     }
 }

@@ -12,5 +12,7 @@ import java.util.List;
 public interface MasterWorkDayRepo  extends JpaRepository<MasterWorkDay,Long> {
 
     List<MasterWorkDay> findAllByBranchIdAndWorkDayIs(Long branchId, LocalDate date);
-    boolean existsByIdAndStartTimeAfterAndEndTimeBefore(Long id, LocalDateTime startTime,LocalDateTime endTime);
+
+    boolean existsByIdAndStartTimeBeforeAndEndTimeAfter(Long id, LocalDateTime startTime, LocalDateTime endTime);
+    boolean existsByIdAndStartTimeIsLessThanEqualAndEndTimeGreaterThanEqual(Long id, LocalDateTime startTime, LocalDateTime endTime);
 }
