@@ -30,13 +30,13 @@ public class ReserveServiceImpl implements ReserveService {
         boolean inTime = masterWorkDayService.inTime(reservedHourDto.getMasterWorkDayId(), reservedHourDto.getStartTime(), reservedHourDto.getEndTime());
         if (!inTime) {
 
-            throw new ReservedHourException("Не входит в диапозон");
+            throw new ReservedHourException("Мастер не работает в этот день");
 
         }
         List<ReservedHours> reservedHoursList = reserveRepo.findAllByMasterWorkDayId(reservedHourDto.getMasterWorkDayId());
-        boolean isFreeTime = checkFreeTime(reservedHoursList, reservedHourDto.getStartTime(), reservedHourDto.getEndTime());
-        if (isFreeTime) {
-            throw new ReservedHourException("not exist free time");
+        boolean notFreeTime = checkFreeTime(reservedHoursList, reservedHourDto.getStartTime(), reservedHourDto.getEndTime());
+        if (notFreeTime) {
+            throw new ReservedHourException("Мастер занят на это время");
         }
         ReservedHourDto reservedHourDto1 = new ReservedHourDto();
         reservedHourDto1.setReserveStatus(reservedHourDto.getReserveStatus());

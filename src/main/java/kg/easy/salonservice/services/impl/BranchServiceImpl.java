@@ -37,6 +37,7 @@ public class BranchServiceImpl implements BranchService {
         List<PhoneDto> phoneDtoList = phoneService.saveAll(branchDto.getPhoneDtoList(),branch.getId());
         branchDto1 = BranchMapper.INTANCE.toBranchDto(branch);
         branchDto.setPhoneDtoList(phoneDtoList);
+        branchDto.setId(branchDto1.getId());
         return branchDto;
     }
 

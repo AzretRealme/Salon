@@ -1,8 +1,11 @@
 package kg.easy.salonservice.controllers;
 
 import kg.easy.salonservice.models.dtos.BranchDto;
+import kg.easy.salonservice.models.dtos.inputs.BranchInput;
 import kg.easy.salonservice.services.BranchService;
 import lombok.AllArgsConstructor;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -36,5 +39,10 @@ public class BranchController implements BaseCrudController<BranchDto,Long> {
     @Override
     public List<BranchDto> findAll() {
         return branchService.findAll();
+    }
+
+    @PostMapping("/save-with-phones")
+    BranchInput saveCustom(@RequestBody BranchInput branchInput){
+        return branchService.saveByPhone(branchInput);
     }
 }
