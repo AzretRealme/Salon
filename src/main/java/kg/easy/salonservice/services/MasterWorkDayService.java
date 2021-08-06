@@ -1,6 +1,7 @@
 package kg.easy.salonservice.services;
 
-import kg.easy.salonservice.models.dtos.MasterWorkDayAppDto;
+import kg.easy.salonservice.models.dtos.inputs.MasterWorkDayInput;
+import kg.easy.salonservice.models.dtos.responses.MasterWorkDayAppDto;
 import kg.easy.salonservice.models.dtos.MasterWorkDayDto;
 
 import java.time.LocalDate;
@@ -11,4 +12,6 @@ public interface MasterWorkDayService extends BaseCrudService<MasterWorkDayDto,L
     List<MasterWorkDayAppDto> getByBranchIdAndDate(Long branchId, LocalDate date);
 
     boolean inTime(Long id, LocalDateTime startTime, LocalDateTime endTime);
+
+    MasterWorkDayDto saveCustom(MasterWorkDayInput masterWorkDayInput);
 }

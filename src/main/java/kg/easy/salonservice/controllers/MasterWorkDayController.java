@@ -1,15 +1,12 @@
 package kg.easy.salonservice.controllers;
 
-import kg.easy.salonservice.exceptions.NotExistTime;
-import kg.easy.salonservice.models.dtos.MasterWorkDayAppDto;
+import kg.easy.salonservice.models.dtos.inputs.MasterWorkDayInput;
+import kg.easy.salonservice.models.dtos.responses.MasterWorkDayAppDto;
 import kg.easy.salonservice.models.dtos.MasterWorkDayDto;
 import kg.easy.salonservice.services.MasterWorkDayService;
 import lombok.AllArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -20,11 +17,16 @@ import java.util.List;
 public class MasterWorkDayController  implements BaseCrudController<MasterWorkDayDto,Long>{
 
     private MasterWorkDayService masterWorkDayService;
+    @PostMapping("/save-custom")
+    public MasterWorkDayDto save(@RequestBody MasterWorkDayInput masterWorkDayInput) {
+
+            return masterWorkDayService.saveCustom(masterWorkDayInput);
+
+    }
+
     @Override
     public MasterWorkDayDto save(MasterWorkDayDto masterWorkDayDto) {
-
-            return masterWorkDayService.save(masterWorkDayDto);
-
+        return null;
     }
 
     @Override

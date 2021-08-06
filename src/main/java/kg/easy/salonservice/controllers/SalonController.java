@@ -24,14 +24,6 @@ public class SalonController  implements BaseCrudController<SalonDto,Long>{
 
             return salonService.save(salonDto);
     }
-    @PostMapping("/saveResponseEntity")
-    public ResponseEntity<?> saveSalon(@RequestBody SalonDto salonDto) throws NotExistTime {
-        try {
-            return salonService.saveNewMethodByResponseEntity(salonDto);
-        } catch (NotExistTime notExistTime) {
-            throw  new NotExistTime("049");
-        }
-    }
 
     @Override
     public SalonDto update(SalonDto salonDto) {
@@ -45,6 +37,6 @@ public class SalonController  implements BaseCrudController<SalonDto,Long>{
 
     @Override
     public List<SalonDto> findAll() {
-        return null;
+        return salonService.findAll();
     }
 }

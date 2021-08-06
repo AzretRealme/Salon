@@ -6,5 +6,4 @@ import org.springframework.http.ResponseEntity;
 
 public interface SalonService  extends BaseCrudService<SalonDto,Long> {
 
-    ResponseEntity<?> saveNewMethodByResponseEntity(SalonDto salonDto) throws NotExistTime;
 }

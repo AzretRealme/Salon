@@ -12,8 +12,24 @@ public interface ClientMapper {
 
     ClientMapper INSTANCE = Mappers.getMapper(ClientMapper.class);
 
-    ClientDto toClientDto(Client client);
-    Client toClient(ClientDto clientDto);
+    default ClientDto toClientDto(Client client) {
+        ClientDto clientDto = new ClientDto();
+        clientDto.setId(client.getId());
+        clientDto.setName(client.getName());
+        clientDto.setPhone(client.getPhone());
+        clientDto.setPin(client.getPin());
+        return clientDto;
+    }
+
+    default Client toClient(ClientDto clientDto) {
+        Client client = new Client();
+        client.setId(clientDto.getId());
+        client.setName(clientDto.getName());
+        client.setPhone(clientDto.getPhone());
+        client.setPin(clientDto.getPin());
+        return client;
+    }
+
     List<ClientDto> toClientDtoList(List<Client> clientList);
     List<Client> toClientList(List<ClientDto> clientDtoList);
 

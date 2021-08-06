@@ -2,16 +2,20 @@ package kg.easy.salonservice.services.impl;
 
 import kg.easy.salonservice.dao.MasterWorkDayRepo;
 import kg.easy.salonservice.mappers.MasterWorkDayMapper;
-import kg.easy.salonservice.models.dtos.MasterWorkDayAppDto;
+import kg.easy.salonservice.models.dtos.BranchDto;
+import kg.easy.salonservice.models.dtos.MasterDto;
+import kg.easy.salonservice.models.dtos.inputs.MasterWorkDayInput;
+import kg.easy.salonservice.models.dtos.responses.MasterWorkDayAppDto;
 import kg.easy.salonservice.models.dtos.MasterWorkDayDto;
 import kg.easy.salonservice.models.enitities.MasterWorkDay;
+import kg.easy.salonservice.services.BranchService;
+import kg.easy.salonservice.services.MasterService;
 import kg.easy.salonservice.services.MasterWorkDayService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 @Service
@@ -19,12 +23,26 @@ import java.util.List;
 public class MasterWorkDayServiceImpl implements MasterWorkDayService {
 
     private MasterWorkDayRepo masterWorkDayRepo;
+    private MasterService masterService;
+    private BranchService branchService;
+
+
+    public MasterWorkDayDto saveCustom(MasterWorkDayInput masterWorkDayInput) {
+        MasterWorkDayDto masterWorkDayDto = MasterWorkDayMapper.INSTANCE.toMasterWorkDayDtoByInput(masterWorkDayInput);
+        MasterDto masterDto = masterService.save(masterService.findById(masterWorkDayInput.getMasterId()));
+        BranchDto branchDto = branchService.save(branchService.findById(masterWorkDayInput.getBranchId()));
+        masterWorkDayDto.setMaster(masterDto);
+        masterWorkDayDto.setBranch(branchDto);
+        System.out.println("salonchik " + branchDto.getSalonDto());
+        MasterWorkDay entity = MasterWorkDayMapper.INSTANCE.toMasterWorkDay(masterWorkDayDto);
+        MasterWorkDay masterWorkDaySaved = masterWorkDayRepo.save(entity);
+        MasterWorkDayDto masterWorkDayDtoSaved = MasterWorkDayMapper.INSTANCE.toMasterWorkDayDto(masterWorkDaySaved);
+        return masterWorkDayDtoSaved;
+    }
 
     @Override
     public MasterWorkDayDto save(MasterWorkDayDto masterWorkDayDto) {
-        MasterWorkDay masterWorkDay = MasterWorkDayMapper.INSTANCE.toMasterWorkDay(masterWorkDayDto);
-        masterWorkDay = masterWorkDayRepo.save(masterWorkDay);
-        return MasterWorkDayMapper.INSTANCE.toMasterWorkDayDto(masterWorkDay);
+        return null;
     }
 
     @Override
@@ -34,7 +52,7 @@ public class MasterWorkDayServiceImpl implements MasterWorkDayService {
 
     @Override
     public MasterWorkDayDto findById(Long id) {
-        return null;
+        return MasterWorkDayMapper.INSTANCE.toMasterWorkDayDto(masterWorkDayRepo.findById(id).orElseThrow(() -> new RuntimeException("Work day not found!!!")));
     }
 
     @Override
@@ -45,13 +63,14 @@ public class MasterWorkDayServiceImpl implements MasterWorkDayService {
     @Override
     public List<MasterWorkDayAppDto> getByBranchIdAndDate(Long branchId, LocalDate textDate) {
 
-        List<MasterWorkDay> masterWorkDayList = masterWorkDayRepo.findAllByBranchIdAndWorkDayIs(branchId,textDate);
-        List<MasterWorkDayAppDto> masterWorkDayAppDtoList = MasterWorkDayMapper.INSTANCE.toMasterWorkDayAppDto(masterWorkDayList);
-        return masterWorkDayAppDtoList;
+        List<MasterWorkDayDto> masterWorkDayList = MasterWorkDayMapper.INSTANCE.toMasterWorkDayDtoList(masterWorkDayRepo.findAllByBranchIdAndWorkDayIs(branchId,textDate));
+        return MasterWorkDayMapper.INSTANCE.toMasterWorkDayAppDto(masterWorkDayList);
     }
 
     @Override
     public boolean inTime(Long id, LocalDateTime startTime, LocalDateTime endTime) {
         return masterWorkDayRepo.existsByIdAndStartTimeIsLessThanEqualAndEndTimeGreaterThanEqual(id,startTime,endTime);
     }
+
+
 }

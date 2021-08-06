@@ -17,7 +17,9 @@ public class MasterServiceImpl implements MasterService {
     private MasterRepo masterRepo;
     @Override
     public MasterDto save(MasterDto masterDto) {
+        System.out.println("MasterDto " + masterDto);
         Master master  = MasterMapper.INSTANCE.toMaster(masterDto);
+        System.out.println("Master "+master);
         master = masterRepo.save(master);
         return MasterMapper.INSTANCE.toMasterDto(master);
     }
@@ -29,11 +31,13 @@ public class MasterServiceImpl implements MasterService {
 
     @Override
     public MasterDto findById(Long id) {
-        return null;
+        Master master = masterRepo.findById(id).orElseThrow(() -> new RuntimeException("Master not found!!!"));
+        System.out.println(master);
+        return MasterMapper.INSTANCE.toMasterDto(master);
     }
 
     @Override
     public List<MasterDto> findAll() {
-        return null;
+        return MasterMapper.INSTANCE.toMasterDtoList(masterRepo.findAll());
     }
 }

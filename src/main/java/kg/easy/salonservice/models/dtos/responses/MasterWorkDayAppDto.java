@@ -1,4 +1,4 @@
-package kg.easy.salonservice.models.dtos;
+package kg.easy.salonservice.models.dtos.responses;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Getter;

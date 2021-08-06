@@ -1,12 +1,12 @@
 package kg.easy.salonservice.controllers;
 
 import kg.easy.salonservice.models.dtos.ReservedHourDto;
+import kg.easy.salonservice.models.dtos.inputs.ReservedHourInput;
+import kg.easy.salonservice.models.dtos.responses.ReservedHourDtoResponse;
+import kg.easy.salonservice.models.dtos.responses.ReservedHourWithMasterName;
 import kg.easy.salonservice.services.ReserveService;
 import lombok.AllArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -18,9 +18,14 @@ public class ReservedHourController implements BaseCrudController<ReservedHourDt
 
     private ReserveService reserveService;
 
+    @PostMapping("/save-by-input")
+    public ReservedHourWithMasterName saveCustom(@RequestBody ReservedHourInput reservedHourDto) {
+        return reserveService.saveCustom(reservedHourDto);
+    }
+
     @Override
     public ReservedHourDto save(ReservedHourDto reservedHourDto) {
-        return reserveService.save(reservedHourDto);
+        return null;
     }
 
     @Override
@@ -41,6 +46,11 @@ public class ReservedHourController implements BaseCrudController<ReservedHourDt
     @GetMapping("/getId")
     public List<ReservedHourDto> get(@RequestParam Long masterWorkDayId){
         return reserveService.findByMasterWorkDayId(masterWorkDayId);
+    }
+
+    @GetMapping("/find-reserved-hours-by-day")
+    List<ReservedHourDtoResponse> getAllReservedHoursByMasterId(@RequestParam Long masterWorkDayId){
+        return reserveService.findAllReservedHoursByMasterDayId(masterWorkDayId);
     }
 
 }

@@ -31,8 +31,7 @@ public class ClientServiceImpl implements ClientService {
 
     @Override
     public ClientDto findById(Long id) {
-        return null;
-    }
+        return ClientMapper.INSTANCE.toClientDto(clientRepo.findById(id).orElseThrow(() -> new RuntimeException("Client not found!!!")));    }
 
     @Override
     public List<ClientDto> findAll() {

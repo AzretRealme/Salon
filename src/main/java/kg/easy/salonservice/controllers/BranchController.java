@@ -1,8 +1,6 @@
 package kg.easy.salonservice.controllers;
 
-import kg.easy.salonservice.exceptions.NotExistTime;
 import kg.easy.salonservice.models.dtos.BranchDto;
-import kg.easy.salonservice.services.BaseCrudService;
 import kg.easy.salonservice.services.BranchService;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.RequestMapping;

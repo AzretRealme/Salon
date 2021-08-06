@@ -12,13 +12,23 @@ public interface SalonMapper{
 
     SalonMapper INSTANCE = Mappers.getMapper(SalonMapper.class);
 
-    SalonDto toSalonDto(Salon salon);
+    default SalonDto toSalonDto(Salon salon) {
+        SalonDto salonDto = new SalonDto();
+        salonDto.setId(salon.getId());
+        salonDto.setActive(salon.isActive());
+        salonDto.setName(salon.getName());
+        return salonDto;
+    }
 
-    Salon toSalon(SalonDto salonDto);
+    default Salon toSalon(SalonDto salonDto) {
+        Salon salon = new Salon();
+        salon.setId(salonDto.getId());
+        salon.setActive(salonDto.isActive());
+        salon.setName(salonDto.getName());
+        return salon;
+    }
 
     List<Salon> toSalonList(List<SalonDto> salonDtoList);
 
     List<SalonDto> toSalonDtoList(List<Salon> salonList);
-
-
 }

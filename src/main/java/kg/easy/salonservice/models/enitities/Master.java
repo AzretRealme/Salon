@@ -1,12 +1,12 @@
 package kg.easy.salonservice.models.enitities;
 
+import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
 
-@Getter
-@Setter
+@Data
 @Entity
 @Table(name = "masters")
 public class Master {

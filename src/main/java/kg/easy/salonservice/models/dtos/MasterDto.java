@@ -1,11 +1,8 @@
 package kg.easy.salonservice.models.dtos;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 
-@Getter
-@Setter
-
+@Data
 public class MasterDto {
     
     private Long id;

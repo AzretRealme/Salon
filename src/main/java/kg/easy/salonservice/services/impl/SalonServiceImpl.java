@@ -34,25 +34,12 @@ public class SalonServiceImpl implements SalonService {
 
     @Override
     public SalonDto findById(Long id) {
-        return null;
+        return SalonMapper.INSTANCE.toSalonDto(salonRepo.findById(id).orElseThrow(()-> new RuntimeException("Salon not found!!!")));
     }
 
     @Override
     public List<SalonDto> findAll() {
-        return null;
+        return SalonMapper.INSTANCE.toSalonDtoList(salonRepo.findAll());
     }
 
-    @Override
-    public ResponseEntity<?> saveNewMethodByResponseEntity(SalonDto salonDto) throws NotExistTime {
-
-        Salon salon = SalonMapper.INSTANCE.toSalon(salonDto);
-        salon = salonRepo.save(salon);
-        salonDto = SalonMapper.INSTANCE.toSalonDto(salon);
-        if (salonDto != null) {
-                throw new NotExistTime("Unsupported");
-
-        }
-        return ResponseEntity.ok("Success");
-
-    }
 }

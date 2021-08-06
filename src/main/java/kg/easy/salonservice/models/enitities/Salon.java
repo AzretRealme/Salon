@@ -1,7 +1,6 @@
 package kg.easy.salonservice.models.enitities;
 
 import lombok.Data;
-import sun.rmi.runtime.Log;
 
 import javax.persistence.*;
 

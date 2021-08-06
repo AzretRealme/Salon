@@ -1,25 +1,21 @@
-package kg.easy.salonservice.models.dtos;
+package kg.easy.salonservice.models.dtos.inputs;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import kg.easy.salonservice.models.enitities.Branch;
-import kg.easy.salonservice.models.enitities.Master;
-import lombok.Getter;
-import lombok.Setter;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
+import kg.easy.salonservice.models.dtos.BranchDto;
+import kg.easy.salonservice.models.dtos.MasterDto;
+import lombok.Data;
+
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
-
-@Getter
-@Setter
-public class MasterWorkDayDto {
+@Data
+public class MasterWorkDayInput {
     private Long id;
 
-    private MasterDto master;
+    private Long masterId;
 
 
-    private BranchDto branch;
+    private Long branchId;
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")
     private LocalDate workDay;
@@ -28,8 +24,4 @@ public class MasterWorkDayDto {
     private LocalDateTime startTime;
     @JsonFormat(shape = JsonFormat.Shape.STRING,pattern = "dd-MM-yyyy HH:mm:ss")
     private LocalDateTime endTime;
-
-    private LocalDateTime addDate;
-
-    private LocalDateTime editDate;
 }

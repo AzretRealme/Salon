@@ -35,6 +35,6 @@ public class MasterController implements BaseCrudController<MasterDto,Long>{
 
     @Override
     public List<MasterDto> findAll() {
-        return null;
+        return masterService.findAll();
     }
 }
