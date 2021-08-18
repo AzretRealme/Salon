@@ -33,7 +33,7 @@ public class MasterWorkDayServiceImpl implements MasterWorkDayService {
         BranchDto branchDto = branchService.save(branchService.findById(masterWorkDayInput.getBranchId()));
         masterWorkDayDto.setMaster(masterDto);
         masterWorkDayDto.setBranch(branchDto);
-        System.out.println("salonchik " + branchDto.getSalonDto());
+        System.out.println("salon " + branchDto.getSalonDto());
         MasterWorkDay entity = MasterWorkDayMapper.INSTANCE.toMasterWorkDay(masterWorkDayDto);
         MasterWorkDay masterWorkDaySaved = masterWorkDayRepo.save(entity);
         MasterWorkDayDto masterWorkDayDtoSaved = MasterWorkDayMapper.INSTANCE.toMasterWorkDayDto(masterWorkDaySaved);
